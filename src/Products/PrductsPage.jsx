@@ -1,10 +1,12 @@
 import Card from "./Cards";
 import { useState, useEffect } from "react";
 function ProductPage({ products, addToCart }) {
-  const [all, setAll] = useState(products);
-  // useEffect(() => {
-  //   setAll(products);
-  // }, []);
+  const [all, setAll] = useState([]);
+
+  useEffect(() => {
+    setAll(products || []);
+  }, [products]);
+  // const [cart, setCart] = useState();
   function onElectronics() {
     setAll(
       products.filter((item) => {
@@ -30,21 +32,21 @@ function ProductPage({ products, addToCart }) {
     );
   }
   return (
-    <div className="w-full flex flex-col gap-5 bg-slate-300 p-5">
+    <div className="w-[1100px] mx-auto flex justify-center  flex-col gap-5  p-5">
       <Kategoris
         onElectronics={onElectronics}
         onAll={onAll}
         onWomen={onWomen}
         onMan={onMan}
       />
-      <Card products={products} addToCart={addToCart} />
+      <Card products={all} addToCart={addToCart} />
     </div>
   );
 }
 
 function Kategoris({ onElectronics, onAll, onWomen, onMan }) {
   return (
-    <div className="flex w-1/2 justify-around">
+    <div className="flex w-1/2 justify-around mx-auto my-4">
       <li
         onClick={onAll}
         className="list-none font-medium text-primary cursor-pointer text-sm

@@ -7,11 +7,13 @@ export default {
   theme: {
     extend: {
       colors :{
-        'primary': '#04364A',
-        'text' : '#64CCC5'
+        'primary': '#982176',
+        'text' : '#FFE5AD'
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide')
+  ],
 }
 

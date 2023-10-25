@@ -1,99 +1,111 @@
 import Navbar from "./Nav/Navbar";
 import ProductPage from "./Products/PrductsPage";
+import CartPage from "./cartPage/cartPage";
+import Hero from "./Hero/Hero";
 import { useState, useEffect } from "react";
 function App() {
-  const [products, setProducts] = useState();
-  const [cart, setCart] = useState();
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
   const [onCartPage, setOnCartPage] = useState(false);
+  const [navbarChange, setNavbarChange] = useState(false);
+  const body = document.getElementsByTagName("body")[0];
+  body.onscroll = function () {
+    console.log(window.scrollY);
+    window.scrollY >= 600 ? setNavbarChange(true) : setNavbarChange(false);
+  };
+  // CartQuantityLength
+  const quantity = cart.map((element) => {
+    return element.quantity;
+  });
+  const cartLength = quantity.reduce((a, b) => a + b, 0);
+
   // add to cart function
   function addToCart(id) {
-    products.map((item) => {
-      if (item.id == id) {
-        setCart(cart ? [...cart, item] : [item]);
+    const selectProduct = products.find((item) => item.id === id);
+    if (selectProduct) {
+      const updateCart = [...cart] || 0;
+      const existingProductItem = updateCart.find((item) => item.id === id);
+
+      if (existingProductItem) {
+        existingProductItem.quantity++;
+      } else {
+        updateCart.push({ ...selectProduct, quantity: 1 });
+      }
+      setCart(updateCart);
+    }
+  }
+
+  // min quantity
+  function minQuantity(id) {
+    const updateCart = [...cart] || 0;
+    const findItemQuantity = updateCart.find((item) => item.id === id);
+    if (findItemQuantity.quantity == 0) return;
+    else {
+      findItemQuantity.quantity--;
+    }
+    setCart(updateCart);
+  }
+
+  // delete cart
+  function deleteCart(id) {
+    const updateCart = cart.filter((item) => item.id !== id);
+    setCart(updateCart);
+  }
+
+  function findIndex(id) {
+    cart.map((item, index) => {
+      if (item.id === id) {
+        return index;
       }
     });
   }
 
-  console.log(onCartPage);
+  //Plus quantity
+  function plusQuantity(id) {
+    const updateCart = [...cart] || 0;
+    const findItemQuantity = updateCart.find((item) => item.id === id);
+    findItemQuantity.quantity++;
+    setCart(updateCart);
+  }
+
   //cart Pages
-  function OnCartPage() {
+  function onEventCart() {
     setOnCartPage(!onCartPage);
   }
 
   useEffect(() => {
-    const externalProducts = async () => {
-      const res = await fetch("https://fakestoreapi.com/products");
-      const data = await res.json();
-      setProducts(data);
+    const fetchData = async () => {
+      try {
+        const result = await fetch("https://fakestoreapi.com/products");
+        const res = await result.json();
+        setProducts(res);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
-    externalProducts();
+    fetchData();
   }, []);
+  console.log(window.scrollY);
   return (
     <>
-      <Navbar cart={cart} onCartPage={OnCartPage} />
+      <Navbar
+        cart={cart}
+        onCartPage={onEventCart}
+        cartLength={cartLength}
+        navbarChange={navbarChange}
+      />
+      <Hero />
       <ProductPage products={products} addToCart={addToCart} />
-      <CartPage onCartPage={onCartPage} OnCartPage={OnCartPage} />
+      <CartPage
+        onCartPage={onCartPage}
+        onEventCart={onEventCart}
+        carts={cart}
+        minQuantity={minQuantity}
+        plusQuantity={plusQuantity}
+        cartLength={cartLength}
+        deleteCart={deleteCart}
+      />
     </>
-  );
-}
-
-function CartPage({ onChartPage, OnCartPage }) {
-  return (
-    <div
-      className={" p-12  absolute w-full top-0 h-full hidden bg-slate-50 z-50"}
-    >
-      <button
-        className="absolute right-3 top-2 text-2xl text-red-600 font-medium"
-        onClick={() => OnCartPage()}
-      >
-        X
-      </button>
-      <div className="flex justify-between mb-5">
-        <h1 className="font-medium text-3xl">Shoping Cart</h1>
-        <span>3 Items</span>
-      </div>
-      <div className="flex justify-between  text-slate-500 text-sm mb-2">
-        <span>Items</span>
-        <div className="flex w-1/2 justify-between">
-          <span>Size</span>
-          <span>Quantity</span>
-          <span>Price</span>
-        </div>
-      </div>
-      <hr />
-      <div className="flex justify-between mt-4">
-        <div className="flex gap-2  w-1/2">
-          <div>
-            <img
-              src="https://picsum.photos/id/237/200"
-              className="w-20"
-              alt=""
-            />
-          </div>
-          <div className="flex justify-evenly flex-col">
-            <h1 className="text-lg">Title Brand</h1>
-            <span className="text-sm text-slate-500">Category</span>
-          </div>
-        </div>
-        <div className="flex justify-between  w-1/2 items-center">
-          <div>
-            <h1>100 Ml</h1>
-          </div>
-          <div className="flex gap-2 items-center">
-            <button className="w-5 h-5 items-center font-medium flex justify-center border-2 border-slate-300 text-slate-300 rounded-full hover:text-slate-600 hover:border-slate-600">
-              -
-            </button>
-            <span>0</span>
-            <button className="w-5 h-5 items-center font-medium flex justify-center border-2 border-slate-300 text-slate-300 rounded-full hover:text-slate-600 hover:border-slate-600">
-              +
-            </button>
-          </div>
-          <div className="">
-            <h1>$700</h1>
-          </div>
-        </div>
-      </div>
-    </div>
   );
 }
 
