@@ -30,7 +30,7 @@ function Card({ products, addToCart }) {
                 </h2>
                 <button
                   onClick={() => addToCart(product.id)}
-                  className="bg-text text-slate-800 hover:bg-slate-800 mx-auto text-xs sm:w-max font-medium px-3 py-2 mt-3 cursor-pointer"
+                  className="bg-text text-slate-800 hover:bg-slate-800 hover:text-white mx-auto text-xs sm:w-max font-medium px-3 py-2 mt-3 cursor-pointer"
                 >
                   Add To Cart {/* Fixed typo here, should be "Cart" */}
                 </button>
