@@ -1,13 +1,39 @@
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
+import { GlobalContext } from "../context";
+function CartsCard() {
+  const { cart, minQuantity, plusQuantity, deleteCart } =
+    useContext(GlobalContext);
 
-function CartsCard({ carts, minQuantity, plusQuantity, deleteCart }) {
-  if (!carts || carts.length == 0) {
+  const [total, setTotal] = useState(0);
+  console.log(total);
+  // Calculate total whenever the cart changes
+  useEffect(() => {
+    calculateTotal();
+  }, [cart]);
+
+  // Function to calculate total
+  const calculateTotal = () => {
+    let totalPrice = 0;
+    if (cart && cart.length > 0) {
+      cart.forEach((item) => {
+        totalPrice += Total(item.price, item.quantity);
+      });
+    }
+    setTotal(totalPrice);
+  };
+
+  // Function to calculate individual product total
+  const Total = (price, quantity) => {
+    return price * quantity;
+  };
+
+  if (!cart || cart.length == 0) {
     return <div className="text-slate-400">Tidak ada cart........</div>;
   } else {
     return (
-      <div className="flex justify-between">
-        <div className="px-6 w-full border-r-[2px] border-slate-300 overflow-y-scroll h-[212px] scrollbar-hide">
-          {carts.map((item, index) => (
+      <div className="flex justify-between transition-all delay-300">
+        <div className="px-6 w-full border-r-[2px] border-slate-300 overflow-y-scroll h-[412px] scrollbar-hide">
+          {cart.map((item, index) => (
             <div
               className="flex justify-between mb-3 py-3 border-b-[1.6px] items-center"
               key={index}
@@ -47,7 +73,7 @@ function CartsCard({ carts, minQuantity, plusQuantity, deleteCart }) {
                 </div>
                 <div className="">
                   <h1 className="text-sm font-semibold text-slate-600">
-                    ${item.price * item.quantity}
+                    ${Total(item.price, item.quantity)}
                   </h1>
                 </div>
               </div>
@@ -74,9 +100,9 @@ function CartsCard({ carts, minQuantity, plusQuantity, deleteCart }) {
           <hr className="border-slate-500 border-[1px] mt-2" />
           <div className="flex justify-between font-medium mt-2">
             <h1>Total</h1>
-            <h2>$0</h2>
+            <h2>${total}</h2>
           </div>
-          <button className="bg-primary hover:bg-slate-800 mx-auto text-xs w-full font-medium text-slate-200 px-3 py-2 mt-5 cursor-pointer">
+          <button className="bg-primary hover:bg-slate-800 hover:text-slate-100 mx-auto text-xs w-full font-medium text-slate-800 px-3 py-2 mt-5 cursor-pointer">
             CHECK OUT
           </button>
         </div>

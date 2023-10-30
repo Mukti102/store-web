@@ -3,6 +3,8 @@ import ProductPage from "./Products/PrductsPage";
 import CartPage from "./cartPage/cartPage";
 import Hero from "./Hero/Hero";
 import { useState, useEffect } from "react";
+import { GlobalContext } from "./context";
+import Loading from "./loading/Loading";
 function App() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
@@ -10,7 +12,6 @@ function App() {
   const [navbarChange, setNavbarChange] = useState(false);
   const body = document.getElementsByTagName("body")[0];
   body.onscroll = function () {
-    console.log(window.scrollY);
     window.scrollY >= 600 ? setNavbarChange(true) : setNavbarChange(false);
   };
   // CartQuantityLength
@@ -88,23 +89,27 @@ function App() {
   console.log(window.scrollY);
   return (
     <>
-      <Navbar
-        cart={cart}
-        onCartPage={onEventCart}
-        cartLength={cartLength}
-        navbarChange={navbarChange}
-      />
-      <Hero />
-      <ProductPage products={products} addToCart={addToCart} />
-      <CartPage
-        onCartPage={onCartPage}
-        onEventCart={onEventCart}
-        carts={cart}
-        minQuantity={minQuantity}
-        plusQuantity={plusQuantity}
-        cartLength={cartLength}
-        deleteCart={deleteCart}
-      />
+      <GlobalContext.Provider
+        value={{
+          cart,
+          setCart,
+          onEventCart,
+          navbarChange,
+          cartLength,
+          products,
+          addToCart,
+          onCartPage,
+          onEventCart,
+          minQuantity,
+          plusQuantity,
+          deleteCart,
+        }}
+      >
+        <Navbar />
+        <Hero />
+        <ProductPage />
+        <CartPage />
+      </GlobalContext.Provider>
     </>
   );
 }

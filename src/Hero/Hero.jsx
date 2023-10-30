@@ -1,21 +1,10 @@
 function Hero() {
   return (
-    <div className="w-full h-[600px] bg-[url('./public/model.jpg')] bg-cover bg-center brightness-100 flex items-center px-10 justify-between">
-      <div className="w-[290px]">
-        <h1 className="font-semibold text-white text-2xl">
-          Comfortoble to Cute
+    <div className="sm:w-[100%] sm:h-[600px] sm:bg-[url('./public/3dd.png')] sm:bg-cover sm:bg-center scale-100 flex sm:items-center rounded-[1.5rem] relative h-[200px] bg-[url('./public/3dd.png')] bg-center bg-cover px-4 items-center w-full">
+      <div className="sm:w-[50%]  sm:absolute sm:right-0 sm:mx-36  sm:flex sm:flex-col w-[50%] absolute right-10">
+        <h1 className="sm:text-5xl sm:font-bold sm:text-white sm:text-right text-right font-semibold text-lg">
+          Get the best product at your <span className="">Home</span>
         </h1>
-        <span className="text-white text-opacity-80 leading-5 text-sm">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis.
-        </span>
-      </div>
-      <div className="w-[290px]">
-        <h1 className="font-semibold text-white text-2xl">
-          Comfortoble to Cute
-        </h1>
-        <span className="text-white text-opacity-80 leading-5 text-sm">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis.
-        </span>
       </div>
     </div>
   );

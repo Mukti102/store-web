@@ -1,19 +1,16 @@
 import CartsCard from "./CartsCards";
-function CartPage({
-  onCartPage,
-  onEventCart,
-  carts,
-  minQuantity,
-  plusQuantity,
-  cartLength,
-  deleteCart,
-}) {
+import { useContext, useState } from "react";
+import { GlobalContext } from "../context";
+function CartPage() {
+  const { onCartPage, onEventCart, cart, cartLength } =
+    useContext(GlobalContext);
+
   return (
     <>
       <div
         className={
-          "p-14  fixed w-full top-0 h-max bg-white shadow-lg z-50" +
-          (onCartPage ? " inline-block" : " hidden")
+          "p-14 fixed  w-full top-0  h-full bg-white shadow-lg z-50 transition-all ease-in-out delay-300" +
+          (onCartPage ? " top-0" : " top-[-100%]")
         }
       >
         <button
@@ -24,7 +21,7 @@ function CartPage({
         </button>
         <div className="flex justify-between mb-5">
           <h1 className="font-medium text-3xl">Shoping Cart</h1>
-          <span>{(carts && cartLength) || 0} Items</span>
+          <span>{(cart && cartLength) || 0} Items</span>
         </div>
         {/* <div className="flex justify-between  text-slate-500 text-sm mb-2">
         <span>Items</span>
@@ -35,12 +32,7 @@ function CartPage({
         </div>
       </div> */}
 
-        <CartsCard
-          carts={carts}
-          minQuantity={minQuantity}
-          plusQuantity={plusQuantity}
-          deleteCart={deleteCart}
-        />
+        <CartsCard />
       </div>
     </>
   );

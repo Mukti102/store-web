@@ -7,13 +7,17 @@ export default {
   theme: {
     extend: {
       colors :{
-        'primary': '#982176',
-        'text' : '#FFE5AD'
+        'primary': '#bac4f5',
+        'text' : '#AAC4FF'
       }
     },
+    // screens : {
+    //   'sm' : '375px',
+    // }
   },
   plugins: [
-    require('tailwind-scrollbar-hide')
+    require('tailwind-scrollbar-hide'),
+    require('@tailwindcss/aspect-ratio'),
   ],
 }
 
