@@ -31,8 +31,8 @@ function CartsCard() {
     return <div className="text-slate-400">Tidak ada cart........</div>;
   } else {
     return (
-      <div className="flex justify-between transition-all delay-300">
-        <div className="px-6 w-full border-r-[2px] border-slate-300 overflow-y-scroll h-[412px] scrollbar-hide">
+      <div className="sm:flex block h-full justify-between transition-all delay-300">
+        <div className="sm:px-6 px-2  w-full border-r-[2px]  border-slate-300 overflow-y-scroll sm:h-[92%] h-1/2 scrollbar-hide">
           {cart.map((item, index) => (
             <div
               className="flex justify-between mb-3 py-3 border-b-[1.6px] items-center"
@@ -80,7 +80,7 @@ function CartsCard() {
             </div>
           ))}
         </div>
-        <div className="w-1/2 px-3">
+        <div className="sm:w-1/2 w-full h-1/2 px-3">
           <h1 className="text-xl text-slate-500 pb-2">Cart Total</h1>
           <hr className="mb-2" />
           <div>

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faBars } from "@fortawesome/free-solid-svg-icons"; // Mengganti icon dengan nama yang benar
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function InputSearch({ onListEvent }) {
   const { navbarChange, onEventCart, cartLength } = useContext(GlobalContext);
@@ -30,11 +31,12 @@ export default function InputSearch({ onListEvent }) {
         onClick={() => onSearch()}
       />
       <div className="flex">
-        <FontAwesomeIcon
-          icon={faCartShopping}
-          className="sm:text-xl  sm:text-slate-700 cursor-pointer hover:text-text text-sm"
-          onClick={() => onEventCart()}
-        />
+        <Link to="/cart">
+          <FontAwesomeIcon
+            icon={faCartShopping}
+            className="sm:text-xl  sm:text-slate-700 cursor-pointer hover:text-text text-sm"
+          />
+        </Link>
         <h1 className="text-white sm:text-[10px] -mt-1 -ml-1 indent-px z-10 bg-green-600 sm:w-4 sm:text-center rounded-full sm:h-4 h-3 w-3 text-[8px] text-center">
           {cartLength || 0}
         </h1>

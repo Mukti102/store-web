@@ -1,14 +1,12 @@
 import Navbar from "./Nav/Navbar";
-import ProductPage from "./Products/PrductsPage";
-import CartPage from "./cartPage/cartPage";
-import Hero from "./Hero/Hero";
 import { useState, useEffect } from "react";
 import { GlobalContext } from "./context";
-import Loading from "./loading/Loading";
+import { router } from "./main";
+import { RouterProvider } from "react-router-dom";
 function App() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
-  const [onCartPage, setOnCartPage] = useState(false);
+  const [onCartPage, setOnCartPage] = useState(true);
   const [navbarChange, setNavbarChange] = useState(false);
   const body = document.getElementsByTagName("body")[0];
   body.onscroll = function () {
@@ -53,14 +51,6 @@ function App() {
     setCart(updateCart);
   }
 
-  function findIndex(id) {
-    cart.map((item, index) => {
-      if (item.id === id) {
-        return index;
-      }
-    });
-  }
-
   //Plus quantity
   function plusQuantity(id) {
     const updateCart = [...cart] || 0;
@@ -86,31 +76,24 @@ function App() {
     };
     fetchData();
   }, []);
-  console.log(window.scrollY);
   return (
-    <>
-      <GlobalContext.Provider
-        value={{
-          cart,
-          setCart,
-          onEventCart,
-          navbarChange,
-          cartLength,
-          products,
-          addToCart,
-          onCartPage,
-          onEventCart,
-          minQuantity,
-          plusQuantity,
-          deleteCart,
-        }}
-      >
-        <Navbar />
-        <Hero />
-        <ProductPage />
-        <CartPage />
-      </GlobalContext.Provider>
-    </>
+    <GlobalContext.Provider
+      value={{
+        cart,
+        onEventCart,
+        navbarChange,
+        cartLength,
+        products,
+        addToCart,
+        onCartPage,
+        onEventCart,
+        minQuantity,
+        plusQuantity,
+        deleteCart,
+      }}
+    >
+      <RouterProvider router={router} />
+    </GlobalContext.Provider>
   );
 }
 
